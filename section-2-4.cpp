@@ -8,7 +8,7 @@ using namespace std;
 
 class RPS {
    private:
-    std::mt19937 generator;
+    mt19937 generator;
     enum class ACTION { ROCK = 0, PAPER, SCISSORS };
 
     static constexpr int NUMBER_OF_ACTIONS = 3;
@@ -39,7 +39,7 @@ class RPS {
     }
 
     ACTION get_action(array<double, NUMBER_OF_ACTIONS> strategy) {
-        std::discrete_distribution<> distribution(strategy.begin(), strategy.end());
+        discrete_distribution<> distribution(strategy.begin(), strategy.end());
 
         int action_index = distribution(generator);
         return static_cast<ACTION>(action_index);

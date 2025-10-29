@@ -14,7 +14,12 @@ class Player {
     array<double, NUMBER_OF_ACTIONS> strategy = {0};
 
     array<double, NUMBER_OF_ACTIONS> get_strategy() {
-        double sum = std::accumulate(strategy.begin(), strategy.end(), 0.0);
+        double sum = 0.0;
+
+        for (int a = 0; a < NUMBER_OF_ACTIONS; a++) {
+            strategy[a] = regret_sum[a] > 0 ? regret_sum[a] : 0;
+            sum += strategy[a];
+        }
 
         for (int a = 0; a < NUMBER_OF_ACTIONS; a++) {
             if (sum > 0)
@@ -29,11 +34,11 @@ class Player {
 
 class RPS {
    private:
-    std::mt19937 generator;
+    mt19937 generator;
     enum class ACTION { ROCK = 0, PAPER, SCISSORS };
 
     ACTION get_action(array<double, NUMBER_OF_ACTIONS>& strategy) {
-        std::discrete_distribution<> distribution(strategy.begin(), strategy.end());
+        discrete_distribution<> distribution(strategy.begin(), strategy.end());
 
         int action_index = distribution(generator);
         return static_cast<ACTION>(action_index);
